@@ -1,0 +1,63 @@
+Partie 1 : Creation de l'image
+Créez votre propre image (conteneuriser l’application https://github.com/diranetafen/static-website-example)
+Testez votre image
+Gérez vos images sur le dockerhub
+Liez votre compte github au dockerhub (automatisation)
+
+Build et lancement du container de l'application
+
+	- Se connecter à la VM
+	- Créer le répertoire webapp dans votre home
+	- Créer le Dockerfile 
+	- Cloner le code source  : 
+		○ git clone https://github.com/diranetafen/static-website-example.git
+	-  Builder l'image en la tagant webapp:v1 : 
+		○ docker build -t webapp:v1 .
+	- Vérifier la présence de l'image
+		○ docker images
+	- Lancer le container : docker run --name webapp -d -p 81:80 webapp:v1
+	- Vérifier la présence du container
+		○ docker ps -a
+	- Se connecter via le navigateur et tester la connexion
+		http://IP_machine:81
+
+Partie 2 : Upload sur Dockerhub
+Push de l'image sur le DockerHub
+	- Se logger sur dockerhub
+		○ docker login
+	- Changer le nom de  mon image
+		○ docker tag $ID_Image mon_id_Docker/webapp:v1
+	- Pusher mon image
+		○ docker push  mon_id_Docker/webapp:v1
+
+Partie 3 :  Automatisation via github et Dockerhub
+
+Récupératon du code Depuis le Dockerfile
+	- Modifier le Dockerfile pour récupérer le code directement sur git
+		On pourra utiliser git clone, il faudra donc l'installer à l'avance
+	- Rebuilder l'image
+		○ docker build -t webapp:v2 . 
+	- Lancer le container
+		○ docker run --name webapp2 -p 80:80 -d webapp:v2
+	- Tester l'application sur votre navigateur 
+	- Supprimer les sources en local
+		○ rm -Rf static-website-example
+	- Créer un repo public sur github (dans l'IHM)
+	- Pousser le code sur github
+	- Initialiser le repos et pousser le code source (en console)
+		○ git init
+		○ Git add README.md Dockerfile
+		○ git config --global user.email "email@email.com"
+		○ git config --global user.name "Name"
+		○ git commit -m "first commit"
+		○ git remote add origin https://github.com/mon_id/monrepositorie.git
+		○ git push -u origin master
+
+
+
+automatisation du build : synchro dockerhub et github
+	- Sur Dockerhub aller sur Account Settings  > Linked Account > connect (sur github) > Authorize docker
+	- Sur Dockerhub, Aller sur  mon image (dans repositorie)
+	- Aller dans Builds > Link to Build >  donner le compte github et le repos contenant le Dockerfile
+	- Save and build
+
